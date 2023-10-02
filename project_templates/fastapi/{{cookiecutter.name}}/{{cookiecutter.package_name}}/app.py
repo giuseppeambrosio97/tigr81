@@ -1,15 +1,18 @@
 import logging
-import uvicorn
-from fastapi import FastAPI
 
-from {{cookiecutter.package_name}} import LOGGING_CONF_LOCATION
+import uvicorn
+from fastapi import Depends, FastAPI
+
+from {{cookiecutter.package_name}} import LOGGING_CONF_LOCATION, dependencies
 from {{cookiecutter.package_name}}.config.model import API_CONFIG
 from {{cookiecutter.package_name}}.routers import health
 
 
 logger = logging.getLogger(__name__)
 
-app = FastAPI()
+app = FastAPI(
+    dependencies=[Depends(dependencies.get_apikey_header)],
+)
 
 app.include_router(health.router)
 
