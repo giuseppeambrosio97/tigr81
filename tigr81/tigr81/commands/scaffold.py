@@ -3,7 +3,7 @@ import os
 from cookiecutter.main import cookiecutter
 import typer
 
-from tigr81 import LOCAL_PROJECT_TEMPLATES_FOLDER_LOCATION
+from tigr81 import REPO_LOCATION
 from tigr81.commands.models import (
     Author,
     ProjectTemplate,
@@ -11,7 +11,7 @@ from tigr81.commands.models import (
     ProjectTypeEnum
 )
 
-REPO_TEMPLATES = "git@github.com:giuseppeambrosio97/tigr81.git"
+REPO_TEMPLATES = "https://github.com/giuseppeambrosio97/tigr81.git"
 
 
 app = typer.Typer()
@@ -20,7 +20,7 @@ app = typer.Typer()
 @app.callback()
 def callback():
     """
-    Scaffold a project template
+    Scaffold project templates
     """
 
 
@@ -31,11 +31,13 @@ def scaffold(
         False, help="Set to False to enable input during cookiecutter execution"
     ),
 ):
-    """Scaffold a FAST API project"""
+    """Scaffold a project template"""
     PROJECT_TEMPLATE_LOCATION = REPO_TEMPLATES
+    checkout = "develop"
 
     if os.getenv("TIGR81_ENVIRONMENT") == "local":
-        PROJECT_TEMPLATE_LOCATION = LOCAL_PROJECT_TEMPLATES_FOLDER_LOCATION.as_posix()
+        PROJECT_TEMPLATE_LOCATION = REPO_LOCATION.as_posix()
+        checkout = None
 
     typer.echo(
         f"Scaffolding a {project_type} project template from {PROJECT_TEMPLATE_LOCATION}"
@@ -56,6 +58,6 @@ def scaffold(
         output_dir=".",
         no_input=default,
         extra_context=project_template.project_options.model_dump(),
-        # checkout="feat/scaffolder",
-        directory=project_template.type,
+        checkout=checkout,
+        directory=f"project_templates/{project_template.type}",
     )
