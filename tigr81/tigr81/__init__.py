@@ -1,7 +1,7 @@
 import pathlib as pl
 import os
 
-__version__ = "0.1.0"
+__version__ = "1.0.0"
 
 PACKAGE_LOCATION = pl.Path(os.path.dirname(__file__))
 ROOT_LOCATION = PACKAGE_LOCATION.parent
