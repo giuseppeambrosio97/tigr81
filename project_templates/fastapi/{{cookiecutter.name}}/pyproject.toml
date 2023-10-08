@@ -6,7 +6,7 @@ authors = ["{{cookiecutter.author.name}} <{{cookiecutter.author.email}}>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.8"
 uvicorn = "^0.23.2"
 fastapi = "^0.103.2"
 pyyaml = "^6.0.1"
