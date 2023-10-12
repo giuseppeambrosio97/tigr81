@@ -2,8 +2,6 @@
   "name": "fastapiapp",
   "package_name": "{{ cookiecutter.name.lower().replace(' ', '_').replace('-', '_') }}",
   "description": "FAST API web app",
-  "author": {
-    "name": "name surname",
-    "email": "email@gmail.com"
-  }
+  "author_name": "name surname",
+  "author_email": "email@gmail.com"
 }
