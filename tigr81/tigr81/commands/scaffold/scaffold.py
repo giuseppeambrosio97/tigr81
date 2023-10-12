@@ -4,8 +4,7 @@ from cookiecutter.main import cookiecutter
 import typer
 
 from tigr81 import REPO_LOCATION
-from tigr81.commands.models import (
-    Author,
+from tigr81.commands.scaffold.project_template import (
     ProjectTemplate,
     ProjectTemplateOptions,
     ProjectTypeEnum
@@ -44,12 +43,11 @@ def scaffold(
     )
 
     project_template = ProjectTemplate(
-        type=project_type,
+        project_type=project_type,
         project_options=ProjectTemplateOptions(
-            name="fastapi-app",
-            package_name="fastapi_pkg",
-            description="FAST API web app",
-            author=Author(name="author name", email="authornemail@gmail.com")
+            name=project_type,
+            package_name=project_type,
+            description=project_type,
         )
     )
 
@@ -59,5 +57,5 @@ def scaffold(
         no_input=default,
         extra_context=project_template.project_options.model_dump(),
         checkout=checkout,
-        directory=f"project_templates/{project_template.type}",
+        directory=f"project_templates/{project_template.project_type}",
     )

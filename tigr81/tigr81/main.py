@@ -1,5 +1,5 @@
 import typer
-from tigr81.commands import scaffold
+from tigr81.commands.scaffold import scaffold
 
 app = typer.Typer()
 
