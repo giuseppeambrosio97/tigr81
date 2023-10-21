@@ -3,5 +3,6 @@
   "package_name": "{{ cookiecutter.name.lower().replace(' ', '_').replace('-', '_') }}",
   "description": "Poetry package template description",
   "author_name": "name surname",
-  "author_email": "email@gmail.com"
+  "author_email": "email@gmail.com",
+  "dependencies": "{{cookiecutter.dependencies}}"
 }

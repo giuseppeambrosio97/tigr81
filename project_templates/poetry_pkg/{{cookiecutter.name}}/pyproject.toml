@@ -7,6 +7,9 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
+{% for pkg_name, dependency in cookiecutter.dependencies|dictsort -%}
+  {{ dependency.name }} = { path = "{{ dependency.relative_path }}", develop = true }
+{% endfor %}
 
 
 [tool.poetry.group.test.dependencies]
