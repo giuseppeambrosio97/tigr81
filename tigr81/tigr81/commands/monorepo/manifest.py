@@ -7,7 +7,7 @@ from tigr81.utils.read_yaml import read_yaml
 
 class Manifest(BaseModel):
     name: str
-    relative_path: Optional[pl.Path] = pl.Path.cwd().as_posix()
+    relative_path: Optional[pl.Path] = pl.Path(".")
     description: Optional[str]
     components: List[ProjectTemplate]
 
