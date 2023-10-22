@@ -2,21 +2,24 @@ from typing import List, Optional
 from pydantic import BaseModel
 import pathlib as pl
 
+import yaml
+from tigr81.commands.monorepo import MANIFEST_FILE_NAME
+
 from tigr81.commands.scaffold.project_template import ProjectTemplate
 from tigr81.utils.read_yaml import read_yaml
 
 class Manifest(BaseModel):
-    name: str
-    relative_path: Optional[pl.Path] = pl.Path(".")
-    description: Optional[str]
-    components: List[ProjectTemplate]
+    name: Optional[str] = "my-monorepo"
+    relative_path: Optional[pl.Path] = pl.Path("src")
+    description: Optional[str] = "A monorepo for my project"
+    components: Optional[List[ProjectTemplate]] = []
 
 
-
-if __name__ == '__main__':
-    dct = read_yaml("/home/giambrosio/projects/personal/tigr81/tigr81/manifest.yml")
-    
-    manifest = Manifest(**dct)
-
-    for component in manifest.components:
-        print(component)
+    def to_yaml(self) -> None:
+        with open(MANIFEST_FILE_NAME, "w") as f:
+            yaml.dump(
+                data=self.model_dump(mode="json"), 
+                stream=f,
+                default_flow_style=False,
+                sort_keys=False
+            )

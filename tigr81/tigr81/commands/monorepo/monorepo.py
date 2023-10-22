@@ -1,16 +1,17 @@
 import os
+from typing_extensions import Annotated
 
 from cookiecutter.main import cookiecutter
 import typer
 
 from tigr81 import LOCAL_REPO_LOCATION, REPO_LOCATION
+from tigr81.commands.monorepo import MANIFEST_FILE_NAME
 from tigr81.commands.monorepo.manifest import Manifest
 
 import pathlib as pl
 
 from tigr81.utils.read_yaml import read_yaml
 
-MANIFEST_FILE_NAME = "manifest.yml"
 
 app = typer.Typer()
 
@@ -29,9 +30,27 @@ def add():
 
 
 @app.command()
-def init():
+def init(
+    name: Annotated[str, typer.Argument(help="The name of the monorepo project")],
+    relative_path: Annotated[str, typer.Argument(help="The folder in which the monorepo source code will be located")] = pl.Path("src"),
+):
     """Initialize a monorepo project"""
     typer.echo("Inizializing a monorepo project")
+
+    manifest_path = pl.Path(MANIFEST_FILE_NAME)
+
+    if manifest_path.exists():
+        overwrite = typer.confirm("The manifest file already exists, do you want to overwrite?")
+        if not overwrite:
+            typer.echo("Manifest file not overwritten!!")
+            return 
+        
+    manifest = Manifest(
+        name=name,
+        relative_path=relative_path
+    )
+    typer.echo("Creating manifest file...")
+    manifest.to_yaml()
 
 
 @app.command()
@@ -49,6 +68,7 @@ def remove():
 @app.command()
 def scaffold():
     """Scaffold a monorepo project"""
+    #TODO: check if the file exists and add a method from_yaml in Manifest
     manifest_dct = read_yaml(MANIFEST_FILE_NAME)  
 
     manifest = Manifest(**manifest_dct)

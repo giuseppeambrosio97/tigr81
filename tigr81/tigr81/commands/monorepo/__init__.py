@@ -1,0 +1,1 @@
+MANIFEST_FILE_NAME = "manifest.yml"
