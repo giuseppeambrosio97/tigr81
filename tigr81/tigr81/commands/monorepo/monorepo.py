@@ -81,7 +81,7 @@ def scaffold():
         checkout = None
 
     typer.echo(
-        f"Scaffolding a monorepo project from {pl.Path.cwd() / MANIFEST_FILE_NAME}"
+        f"Scaffolding a monorepo project from manifest located at {pl.Path.cwd() / MANIFEST_FILE_NAME}"
     )
 
     for component in manifest.components:
@@ -94,3 +94,10 @@ def scaffold():
             checkout=checkout,
             directory=f"project_templates/{component.project_type}",
         ) 
+
+    typer.echo("Monorepo scaffolding completed successfully")
+
+    mf_digraph = manifest.to_graphviz_digraph()
+
+    typer.echo("Rendering the manifest...")
+    mf_digraph.render()
