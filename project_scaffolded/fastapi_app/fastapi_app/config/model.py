@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from fastapi.config.loading import config
+from fastapi_app.config.loading import config
 
 @dataclass(frozen=True)
 class ApiConfig:

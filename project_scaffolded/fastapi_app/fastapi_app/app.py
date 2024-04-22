@@ -3,9 +3,9 @@ import logging
 import uvicorn
 from fastapi import Depends, FastAPI
 
-from fastapi import LOGGING_CONF_LOCATION, dependencies
-from fastapi.config.model import API_CONFIG
-from fastapi.routers import health
+from fastapi_app import LOGGING_CONF_LOCATION, dependencies
+from fastapi_app.config.model import API_CONFIG
+from fastapi_app.routers import health
 
 
 logger = logging.getLogger(__name__)

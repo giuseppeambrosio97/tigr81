@@ -2,7 +2,7 @@ import os
 from argparse import ArgumentParser
 
 import yaml
-from fastapi import CONFIG_LOCATION
+from fastapi_app import CONFIG_LOCATION
 
 
 def _merge_dictionaries(main_dict, new_dict, merging_lists=False):
