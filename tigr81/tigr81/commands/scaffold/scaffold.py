@@ -1,4 +1,5 @@
 import os
+from typing_extensions import Annotated
 
 from cookiecutter.main import cookiecutter
 import typer
@@ -15,7 +16,7 @@ import pathlib as pl
 
 
 def scaffold(
-    project_type: ProjectTypeEnum,
+    project_type: Annotated[ProjectTypeEnum, typer.Argument(help="The project type to scaffold")],
     default: bool = typer.Option(
         False, help="Set to False to enable input during cookiecutter execution"
     ),
@@ -24,15 +25,15 @@ def scaffold(
     )
 ):
     """Scaffold a project template"""
-    PROJECT_TEMPLATE_LOCATION = REPO_LOCATION
+    __PROJECT_TEMPLATE_LOCATION = REPO_LOCATION
     checkout = "develop"
 
     if os.getenv("TIGR81_ENVIRONMENT") == "local":
-        PROJECT_TEMPLATE_LOCATION = LOCAL_REPO_LOCATION.as_posix()
+        __PROJECT_TEMPLATE_LOCATION = LOCAL_REPO_LOCATION.as_posix()
         checkout = None
 
     typer.echo(
-        f"Scaffolding a {project_type} project template from {PROJECT_TEMPLATE_LOCATION}"
+        f"Scaffolding a {project_type} project template from {__PROJECT_TEMPLATE_LOCATION}"
     )
 
     project_template = ProjectTemplate(
@@ -45,7 +46,7 @@ def scaffold(
     )
 
     cookiecutter(
-        template=PROJECT_TEMPLATE_LOCATION,
+        template=__PROJECT_TEMPLATE_LOCATION,
         output_dir=output_dir,
         no_input=default,
         extra_context=project_template.extra_content,
