@@ -1,4 +1,5 @@
 import os
+import subprocess
 from typing_extensions import Annotated
 
 from cookiecutter.main import cookiecutter
@@ -36,12 +37,17 @@ def scaffold(
         f"Scaffolding a {project_type} project template from {__PROJECT_TEMPLATE_LOCATION}"
     )
 
+    author_email = subprocess.run(['git', 'config', 'user.email'], capture_output=True, text=True, check=True).stdout.strip()
+    author_name = author_email.split('@')[0]
+
     project_template = ProjectTemplate(
         project_type=project_type,
         project_options=ProjectTemplateOptions(
             name=project_type,
             package_name=project_type,
             description=project_type,
+            author_name=author_name,
+            author_email=author_email,
         )
     )
 
