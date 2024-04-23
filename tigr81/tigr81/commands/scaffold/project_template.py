@@ -17,6 +17,10 @@ class ProjectTypeEnum(str, Enum):
     # GCP_CLOUD_FUNCTION = "gcp_cloud_function"
     # COOKIECUTTER = "cookiecutter"
 
+    @staticmethod
+    def get_monorepo_types() -> List["ProjectTypeEnum"]:
+        return [ProjectTypeEnum.FAST_API, ProjectTypeEnum.POETRY_PKG]
+
     def __repr__(self) -> str:
         return self.value
 
@@ -94,7 +98,7 @@ class ProjectTemplate(BaseModel):
     
     @classmethod
     def prompt(cls, available_dependencies: List["ProjectTemplate"] = None) -> "ProjectTemplate":
-        project_type = typer.prompt("Enter the project template type for the component you want to add", type=click.Choice(ProjectTypeEnum))
+        project_type = typer.prompt("Enter the project template type for the component you want to add", type=click.Choice(ProjectTypeEnum.get_monorepo_types()))
 
         relative_path = typer.prompt("Enter the relative path of the component you want to add", default=PROJECT_TEMPLATE_DEFAULT_RELATIVE_PATH)
 
