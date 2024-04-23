@@ -1,6 +1,9 @@
 import typer
-from tigr81.commands import scaffold
+from tigr81.commands.scaffold import scaffold
+from tigr81.commands.monorepo import monorepo
 
 app = typer.Typer()
 
-app.add_typer(scaffold.app(), name="scaffold")
+
+app.command()(scaffold.scaffold)
+app.add_typer(monorepo.app, name="monorepo")
