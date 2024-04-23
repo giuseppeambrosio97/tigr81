@@ -1,7 +1,7 @@
 import os
-from argparse import ArgumentParser
 
 import yaml
+from {{cookiecutter.package_name}}.app_settings import APP_SETTINGS, EnvironmentEnum
 from {{cookiecutter.package_name}} import CONFIG_LOCATION
 
 
@@ -47,16 +47,5 @@ def _get_config_dict(env):
     return configmap if configmap else {}
 
 
-def _get_env():
-    """ Get the environment (first from command line, otherwise from env variable, otherwise local) """
+config = _merge_dictionaries(_get_config_dict(EnvironmentEnum.DEFAULT), _get_config_dict(APP_SETTINGS.environment))
 
-    parser = ArgumentParser()
-    parser.add_argument("-e", "--environment",
-                        default=os.environ.get("ENVIRONMENT", "local"),
-                        help='environment')
-    args, _ = parser.parse_known_args()
-    return args.environment
-
-
-environment = _get_env()
-config = _merge_dictionaries(_get_config_dict("default"), _get_config_dict(environment))
