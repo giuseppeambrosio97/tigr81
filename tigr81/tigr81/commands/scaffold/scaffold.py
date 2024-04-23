@@ -29,7 +29,14 @@ def scaffold(
     ),
 ):
     """Scaffold a project template"""
-    scaffold_core.scaffold(project_type=project_type, default=default, output_dir=output_dir)
+
+    if project_type == ProjectTypeEnum.PRIME_REACT:
+        scaffold_core.scaffold_cookiecutter(
+            project_type=project_type,
+            output_dir=output_dir
+        )
+    else:
+        scaffold_core.scaffold(project_type=project_type, default=default, output_dir=output_dir)
 
 
 if __name__ == "__main__":

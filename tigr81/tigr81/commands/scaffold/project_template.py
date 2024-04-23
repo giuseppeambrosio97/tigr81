@@ -13,6 +13,7 @@ PROJECT_TEMPLATE_DEFAULT_RELATIVE_PATH = pl.Path(".")
 class ProjectTypeEnum(str, Enum):
     FAST_API = "fastapi"
     POETRY_PKG = "poetry_pkg"
+    PRIME_REACT = "prime-react"
     # GCP_CLOUD_FUNCTION = "gcp_cloud_function"
     # COOKIECUTTER = "cookiecutter"
 

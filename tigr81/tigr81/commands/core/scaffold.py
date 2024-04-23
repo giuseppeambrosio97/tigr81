@@ -63,5 +63,27 @@ def scaffold_project_template(
     )
 
 
+def scaffold_cookiecutter(
+    project_type: ProjectTypeEnum, output_dir: pl.Path = pl.Path(".")
+):
+    __PROJECT_TEMPLATE_LOCATION = REPO_LOCATION
+    checkout = "develop"
+
+    if CLI_SETTINGS.tigr81_environment == "local":
+        __PROJECT_TEMPLATE_LOCATION = LOCAL_REPO_LOCATION.as_posix()
+    typer.echo(
+        f"Scaffolding a {project_type} project template from {__PROJECT_TEMPLATE_LOCATION}"
+    )
+
+    cookiecutter(
+        template=__PROJECT_TEMPLATE_LOCATION,
+        output_dir=output_dir,
+        no_input=False,
+        checkout=checkout,
+        directory=f"project_templates/{project_type}",
+    )
+
+
+
 def scaffold_monorepo(components: List[ProjectTemplate]):
     pass
