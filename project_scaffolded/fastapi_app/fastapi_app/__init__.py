@@ -1,4 +1,3 @@
-import os
 import pathlib as pl
 
 __version__ = "1.0.0"
