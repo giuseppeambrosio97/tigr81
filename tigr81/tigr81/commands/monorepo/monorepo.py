@@ -1,15 +1,12 @@
-import os
 import pathlib as pl
 import shutil
 from typing import Dict, List
 
 import click
 import typer
-from cookiecutter.main import cookiecutter
 from pydantic import BaseModel
-from typing_extensions import Annotated
 
-from tigr81 import LOCAL_REPO_LOCATION, REPO_LOCATION
+import tigr81.commands.core.scaffold as scaffold_core
 from tigr81.commands.core.poetry_pm import PoetryPM
 from tigr81.commands.monorepo.constants import MANIFEST_FILE_NAME
 from tigr81.commands.monorepo.manifest import Manifest
@@ -167,13 +164,6 @@ def scaffold():
 
     manifest = Manifest(**manifest_dct)
 
-    PROJECT_TEMPLATE_LOCATION = REPO_LOCATION
-    checkout = "develop"
-
-    if os.getenv("TIGR81_ENVIRONMENT") == "local":
-        PROJECT_TEMPLATE_LOCATION = LOCAL_REPO_LOCATION.as_posix()
-        checkout = None
-
     typer.echo(
         f"Scaffolding a monorepo project from manifest located at {pl.Path.cwd() / MANIFEST_FILE_NAME}"
     )
@@ -186,13 +176,10 @@ def scaffold():
         )
         typer.echo(f"Scaffolding {component_location} component...")
         if not component_location.exists():
-            cookiecutter(
-                template=PROJECT_TEMPLATE_LOCATION,
+            scaffold_core.scaffold_project_template(
+                project_template=component,
+                default=True,
                 output_dir=manifest.relative_path / component.relative_path,
-                no_input=True,
-                extra_context=component.extra_content,
-                checkout=checkout,
-                directory=f"project_templates/{component.project_type}",
             )
             typer.echo(f"Component {component_location} scaffolded successfully")
         else:

@@ -1,64 +1,35 @@
-import os
-import subprocess
 from typing_extensions import Annotated
 
 from cookiecutter.main import cookiecutter
 import typer
 
 from tigr81 import LOCAL_REPO_LOCATION, REPO_LOCATION
+from tigr81.cli_settings import CLI_SETTINGS
+import tigr81.commands.core.scaffold as scaffold_core
 from tigr81.commands.scaffold.project_template import (
     Dependency,
     ProjectTemplate,
     ProjectTemplateOptions,
-    ProjectTypeEnum
+    ProjectTypeEnum,
 )
 
 import pathlib as pl
 
 
 def scaffold(
-    project_type: Annotated[ProjectTypeEnum, typer.Argument(help="The project type to scaffold")],
+    project_type: Annotated[
+        ProjectTypeEnum, typer.Argument(help="The project type to scaffold")
+    ],
     default: bool = typer.Option(
         False, help="Set to False to enable input during cookiecutter execution"
     ),
     output_dir: pl.Path = typer.Option(
-        pl.Path("."), help="Set if you want to scaffold the project template in a specific directory"
-    )
+        pl.Path("."),
+        help="Set if you want to scaffold the project template in a specific directory",
+    ),
 ):
     """Scaffold a project template"""
-    __PROJECT_TEMPLATE_LOCATION = REPO_LOCATION
-    checkout = "develop"
-
-    if os.getenv("TIGR81_ENVIRONMENT") == "local":
-        __PROJECT_TEMPLATE_LOCATION = LOCAL_REPO_LOCATION.as_posix()
-        checkout = None
-
-    typer.echo(
-        f"Scaffolding a {project_type} project template from {__PROJECT_TEMPLATE_LOCATION}"
-    )
-
-    author_email = subprocess.run(['git', 'config', 'user.email'], capture_output=True, text=True, check=True).stdout.strip()
-    author_name = author_email.split('@')[0]
-
-    project_template = ProjectTemplate(
-        project_type=project_type,
-        project_options=ProjectTemplateOptions(
-            name=project_type,
-            package_name=project_type,
-            description=project_type,
-            author_name=author_name,
-            author_email=author_email,
-        )
-    )
-
-    cookiecutter(
-        template=__PROJECT_TEMPLATE_LOCATION,
-        output_dir=output_dir,
-        no_input=default,
-        extra_context=project_template.extra_content,
-        checkout=checkout,
-        directory=f"project_templates/{project_template.project_type}",
-    )
+    scaffold_core.scaffold(project_type=project_type, default=default, output_dir=output_dir)
 
 
 if __name__ == "__main__":
@@ -66,7 +37,7 @@ if __name__ == "__main__":
     PROJECT_TEMPLATE_LOCATION = REPO_LOCATION
     checkout = "develop"
 
-    if os.getenv("TIGR81_ENVIRONMENT") == "local":
+    if CLI_SETTINGS.tigr81_environment == "local":
         PROJECT_TEMPLATE_LOCATION = LOCAL_REPO_LOCATION.as_posix()
         checkout = None
 
@@ -84,7 +55,7 @@ if __name__ == "__main__":
         dependencies=[
             Dependency(name="dagprep", relative_path="../../dagprep"),
             Dependency(name="fresko", relative_path="../../fresko"),
-        ]
+        ],
     )
 
     print(project_template.extra_content)
