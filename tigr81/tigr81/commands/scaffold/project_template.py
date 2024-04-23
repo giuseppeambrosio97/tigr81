@@ -15,7 +15,6 @@ class ProjectTypeEnum(str, Enum):
     POETRY_PKG = "poetry_pkg"
     # GCP_CLOUD_FUNCTION = "gcp_cloud_function"
     # COOKIECUTTER = "cookiecutter"
-    # MONO_REPO = "mono_repo"
 
     def __repr__(self) -> str:
         return self.value
