@@ -8,6 +8,7 @@ app = typer.Typer()
     
 @app.command()
 def version():
+    """Check out version information"""
     typer.echo(f"v{__version__}")
     typer.echo("\nCheck out for new versions:")
     typer.echo(f"- {PYPY_URL}")
