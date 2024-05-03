@@ -39,10 +39,10 @@ def _merge_dictionaries(main_dict, new_dict, merging_lists=False):
     return main_dict
 
 
-def _get_config_dict(env):
+def _get_config_dict(env: EnvironmentEnum):
     """ Get the config dictionary from resource file """
 
-    with open(os.path.join(CONFIG_LOCATION, "{}.yml".format(env))) as f:
+    with open(os.path.join(CONFIG_LOCATION, "{}.yml".format(env.name))) as f:
         configmap = yaml.load(f, Loader=yaml.SafeLoader)
     return configmap if configmap else {}
 
