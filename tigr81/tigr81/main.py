@@ -1,6 +1,7 @@
 import typer
 from tigr81.commands.scaffold import scaffold
 from tigr81.commands.monorepo import monorepo
+from tigr81.commands.hub import hub
 from tigr81 import PYPY_URL, REPO_LOCATION, __version__ 
 
 app = typer.Typer()
@@ -16,4 +17,5 @@ def version():
     
 
 app.command()(scaffold.scaffold)
+app.add_typer(hub.app, name="hub")
 app.add_typer(monorepo.app, name="monorepo")
