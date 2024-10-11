@@ -34,6 +34,13 @@ UI LIBRARY
 
 #### Installation
 
+##### NVM
+
+```bash
+  nvm install $(cat .nvmrc)
+  nvm use
+```
+
 ```bash
   yarn install
 ```
