@@ -30,10 +30,10 @@ function SideMenu(props: SideMenuProps) {
           },
         },
         {
-          label: "Your POCs",
+          label: "Your POC",
           icon: "pi pi-code",
           command: () => {
-            props.setPageToShow("pocs");
+            props.setPageToShow("poc");
           },
         },
         {

@@ -3,7 +3,7 @@ import SideMenu from "./components/SideMenu";
 import { getAuthStateST } from "@/auth";
 import PocPage from "../poc/PocPage";
 
-export type PageKey = "pocs" | "home";
+export type PageKey = "poc" | "home";
 
 type PageItem = {
   title: string;
@@ -15,7 +15,7 @@ type Pages = {
 };
 
 const KEY_TO_PAGE: Pages = {
-  pocs: {
+  poc: {
     title: "Your POC Page",
     element: <PocPage />,
   },
