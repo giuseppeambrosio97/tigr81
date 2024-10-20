@@ -16,4 +16,3 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     </PrimeReactProvider>
   </React.StrictMode>
 );
-
