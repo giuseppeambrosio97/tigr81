@@ -26,9 +26,6 @@ def scaffold(
     project_template = ProjectTemplate(
         project_type=project_type,
         project_options=ProjectTemplateOptions(
-            name=project_type,
-            package_name=project_type,
-            description=project_type,
             author_name=author_name,
             author_email=author_email,
         ),
