@@ -49,22 +49,28 @@ function LoginPage() {
       showLoginFailedToast();
     }
   };
+
   return (
-    <div className="flex m-44 justify-center">
+    <div className="flex justify-center p-4 md:p-8 lg:p-12 md:mt-16">
       <Toast ref={toastRef} />
-      <div className="grid grid-cols-2 gap-20 max-h-[50%] max-w-[50%]">
-        <div className="grid grid-cols-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-20 max-w-[90%] md:max-w-[60%] lg:max-w-[50%] xl:max-w-[40%]">
+        {/* Image Section */}
+        <div className="flex justify-center">
           <Image
             src="https://raw.githubusercontent.com/giuseppeambrosio97/tigr81/develop/assets/5142438-cute-baby-tigre-vettoriale.jpg"
             alt="POC login logo"
+            className="w-full h-auto max-w-xs md:max-w-sm lg:max-w-md"
           />
         </div>
-        <div className="grid grid-cols-1">
+
+        {/* Form Section */}
+        <div className="flex items-center justify-center">
           <form
             onSubmit={handleLogin}
-            className="items-center justify-center flex flex-col gap-3"
+            className="flex flex-col gap-4 w-full"
           >
-            <div className="flex flex-col gap-2 w-full">
+            {/* Username Field */}
+            <div className="flex flex-col gap-2">
               <label
                 htmlFor="username"
                 className={`block text-sm font-medium ${
@@ -82,7 +88,9 @@ function LoginPage() {
                 } rounded-md`}
               />
             </div>
-            <div className="flex flex-col gap-2 w-full">
+
+            {/* Password Field */}
+            <div className="flex flex-col gap-2">
               <label
                 htmlFor="password"
                 className={`block text-sm font-medium ${
@@ -101,10 +109,12 @@ function LoginPage() {
                 } rounded-md`}
               />
             </div>
+
+            {/* Login Button */}
             <Button
               label="Login"
               type="submit"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 mt-1 border border-gray-300 rounded-md"
               pt={buttonDefaultPt}
             />
           </form>
