@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "fastapi_app"
+name = "webserver"
 version = "0.1.0"
-description = "fastapi"
+description = "FAST API web app"
 authors = ["giuambro97 <giuambro97@gmail.com>"]
 readme = "README.md"
 

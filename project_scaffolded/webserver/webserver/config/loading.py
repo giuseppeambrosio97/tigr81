@@ -1,8 +1,8 @@
 import os
 
 import yaml
-from fastapi_app.app_settings import APP_SETTINGS, EnvironmentEnum
-from fastapi_app import CONFIG_LOCATION
+from webserver.app_settings import APP_SETTINGS, EnvironmentEnum
+from webserver import CONFIG_LOCATION
 
 
 def _merge_dictionaries(main_dict, new_dict, merging_lists=False):
@@ -39,10 +39,10 @@ def _merge_dictionaries(main_dict, new_dict, merging_lists=False):
     return main_dict
 
 
-def _get_config_dict(env: EnvironmentEnum):
+def _get_config_dict(env):
     """ Get the config dictionary from resource file """
 
-    with open(os.path.join(CONFIG_LOCATION, "{}.yml".format(env.name))) as f:
+    with open(os.path.join(CONFIG_LOCATION, "{}.yml".format(env))) as f:
         configmap = yaml.load(f, Loader=yaml.SafeLoader)
     return configmap if configmap else {}
 

@@ -1,11 +1,11 @@
 import uvicorn
 
-from fastapi_app import LOGGING_CONF_LOCATION
-from fastapi_app.config.model import API_CONFIG
+from webserver import LOGGING_CONF_LOCATION
+from webserver.config.model import API_CONFIG
 
 if __name__ == '__main__':
     uvicorn.run(
-        "fastapi_app.app:app",
+        "webserver.app:app",
         host=API_CONFIG.host,
         port=API_CONFIG.port,
         reload=API_CONFIG.reload,
