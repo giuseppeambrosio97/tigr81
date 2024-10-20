@@ -47,15 +47,13 @@ export default function SidebarMenu() {
             </Sidebar>
 
             {/* Button to toggle the sidebar */}
-            <Button
-                icon="pi pi-bars"
-                size="large"
-                className="top-0 left-0 ml-2 mt-2"
-                {% raw %}
-                style={{ position: 'fixed' }}
-                {% endraw %}
-                onClick={() => setVisible(true)}
-            />
+            <div className="fixed top-2 left-2 shadow rounded-sm">
+                <Button
+                    icon="pi pi-bars"
+                    size='large'
+                    onClick={() => setVisible(true)}
+                />
+            </div>
         </>
     );
 }
