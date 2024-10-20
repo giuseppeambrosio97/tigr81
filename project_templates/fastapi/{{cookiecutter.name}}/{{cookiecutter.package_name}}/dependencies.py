@@ -9,6 +9,7 @@ logger = logging.getLogger(__name__)
 
 api_key_header = APIKeyHeader(name="X-API-Key")
 
+
 async def get_apikey_header(apikey: str = Security(api_key_header)):
     """
         This function checks whether a request has the correct apikey.
@@ -22,6 +23,6 @@ async def get_apikey_header(apikey: str = Security(api_key_header)):
     logger.info("apikey authentication in progress")
     if not secrets.compare_digest(apikey, os.getenv("API_KEY")):
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, 
-            detail="Invalid or missing API Key"
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or missing API Key",
         )

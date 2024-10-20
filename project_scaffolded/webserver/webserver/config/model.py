@@ -1,9 +1,9 @@
-from dataclasses import dataclass
+from pydantic import BaseModel
 
 from webserver.config.loading import config
 
-@dataclass(frozen=True)
-class ApiConfig:
+
+class ApiConfig(BaseModel):
     host: str
     port: int
     reload: bool

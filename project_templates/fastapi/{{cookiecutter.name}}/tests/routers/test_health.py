@@ -3,7 +3,6 @@ from fastapi.testclient import TestClient
 
 from {{cookiecutter.package_name}}.app import app
 
-client = TestClient(app)
 
 def test_router_health():
     with TestClient(app) as client:

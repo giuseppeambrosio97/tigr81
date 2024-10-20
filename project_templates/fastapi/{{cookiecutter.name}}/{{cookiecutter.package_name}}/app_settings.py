@@ -1,14 +1,11 @@
-from enum import Enum
+from typing import Literal
 from pydantic_settings import BaseSettings
 
-class EnvironmentEnum(str, Enum):
-    DEFAULT = "default"
-    LOCAL = "local"
-    DEV = "dev"
-    PROD = "prod"
+EnvironmentType = Literal["default", "local", "dev", "prod"]
 
 
 class AppSettings(BaseSettings):
-    environment: EnvironmentEnum = EnvironmentEnum.LOCAL
+    environment: EnvironmentType = "local"
+
 
 APP_SETTINGS = AppSettings()

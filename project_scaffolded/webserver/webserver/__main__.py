@@ -3,7 +3,7 @@ import uvicorn
 from webserver import LOGGING_CONF_LOCATION
 from webserver.config.model import API_CONFIG
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     uvicorn.run(
         "webserver.app:app",
         host=API_CONFIG.host,
