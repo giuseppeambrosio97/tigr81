@@ -5,7 +5,6 @@ import typer
 from pydantic import BaseModel
 import yaml
 
-from tigr81 import DEFAULT_HUB_LOCATION
 from tigr81.utils.read_yaml import read_yaml
 
 
@@ -16,10 +15,10 @@ class HubTemplate(BaseModel):
     directory: Optional[str] = None
 
     def __str__(self):
-        name_str = f"template name: {self.name}"
-        template_str = f"template location: {self.template}"
-        checkout_str = f"checkout: {self.checkout}" if self.checkout else ""
-        directory_str = f"directory: {self.directory}" if self.directory else ""
+        name_str = f"\ttemplate name: {self.name}"
+        template_str = f"\ttemplate location: {self.template}"
+        checkout_str = f"\t checkout: {self.checkout}" if self.checkout else ""
+        directory_str = f"\t directory: {self.directory}" if self.directory else ""
         return "\n".join([name_str, template_str, checkout_str, directory_str])
 
     @staticmethod
@@ -62,12 +61,12 @@ class Hub(BaseModel):
             )
     
     def __str__(self):
-        hub_templates_str = "\n".join(
-            [f">>>\n{ht}" for ht in self.hub_templates.values()]
+        hub_templates_str = "".join(
+            [f"{ht}" for ht in self.hub_templates.values()]
         )
-        return f"""HUB INFO:
-HUB NAME: {self.name}
-HUB TEMPLATES:\n{hub_templates_str}
+        return f"""Hub info
+hub name: {self.name}
+hub templates:\n\n{hub_templates_str}
 """
 
     @staticmethod
