@@ -5,13 +5,11 @@ import ThemeSwitcher from "@/components/ThemeSwitcher";
 export default function Layout() {
   return (
     <>
-      {/* SidebarMenu component with the Sidebar and Menu */}
-      <SidebarMenu />
-      <ThemeSwitcher />
-
       {/* Header Section */}
-      <header className="text-white flex justify-center font-bold text-2xl p-5 bg-primary mb-2">
-        Application Header
+      <header className="text-white flex justify-between items-center font-bold text-2xl p-3 bg-primary mb-2">
+        <SidebarMenu />
+        <h2>Application Header</h2>
+        <ThemeSwitcher />
       </header>
 
       {/* Main content area */}

@@ -15,13 +15,11 @@ export default function ThemeSwitcher() {
         );
     };
     return (
-        <div className="fixed top-2 right-4">
-            <Button
-                icon={`pi ${isLightMode ? 'pi-sun' : 'pi-moon'}`}
-                raised
-                rounded
-                onClick={onSwitchTheme}
-            />
-        </div>
+        <Button
+            icon={`pi ${isLightMode ? 'pi-sun' : 'pi-moon'}`}
+            raised
+            rounded
+            onClick={onSwitchTheme}
+        />
     );
 }
