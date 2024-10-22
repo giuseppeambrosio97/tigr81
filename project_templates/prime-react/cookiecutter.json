@@ -1,6 +1,6 @@
 {
   "name": "primereact",
-  "package_name": "{{ cookiecutter.name.lower().replace(' ', '_').replace('-', '_') }}",
+  "package_name": "{{ cookiecutter.name.lower().replace(' ', '-').replace('_', '-') }}",
   "favicon_title": "Prime React Unstyled Mode + Tailwind CSS",
   "home_page_title": "Home Page Title",
   "bg_primary": "#258900",
