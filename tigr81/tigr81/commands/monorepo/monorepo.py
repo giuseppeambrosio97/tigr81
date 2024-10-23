@@ -11,7 +11,7 @@ from tigr81.commands.core.poetry_pm import PoetryPM
 from tigr81.commands.monorepo.constants import MANIFEST_FILE_NAME
 from tigr81.commands.monorepo.manifest import Manifest
 from tigr81.commands.scaffold.project_template import ProjectTemplate
-from tigr81.utils.read_yaml import read_yaml
+import tigr81.utils as tigr81_utils
 
 app = typer.Typer()
 
@@ -28,7 +28,7 @@ def add():
     """Add a component to the monorepo project"""
     typer.echo("Adding a component to the monorepo project")
 
-    manifest_dct = read_yaml(MANIFEST_FILE_NAME)
+    manifest_dct = tigr81_utils.read_yaml(MANIFEST_FILE_NAME)
     manifest = Manifest(**manifest_dct)
 
     component = ProjectTemplate.prompt(available_dependencies=manifest.components)
@@ -45,7 +45,7 @@ def add():
 @app.command()
 def draw():
     """Generate the .png representation of the monorepo pkd dependencies"""
-    manifest_dct = read_yaml(MANIFEST_FILE_NAME)
+    manifest_dct = tigr81_utils.read_yaml(MANIFEST_FILE_NAME)
     manifest = Manifest(**manifest_dct)
     mf_digraph = manifest.to_graphviz_digraph()
     typer.echo("Rendering the manifest...")
@@ -56,7 +56,7 @@ def draw():
 def clean():
     """Delete all resources related to the current monorepo"""
     typer.echo("Cleaning monorepo project")
-    manifest_dct = read_yaml(MANIFEST_FILE_NAME)
+    manifest_dct = tigr81_utils.read_yaml(MANIFEST_FILE_NAME)
     manifest = Manifest(**manifest_dct)
 
     confirmed = typer.confirm(
@@ -117,7 +117,7 @@ def install():
 
     pc = PoetryPM()
 
-    manifest_dct = read_yaml(MANIFEST_FILE_NAME)
+    manifest_dct = tigr81_utils.read_yaml(MANIFEST_FILE_NAME)
 
     manifest = Manifest(**manifest_dct)
 
@@ -132,7 +132,7 @@ def install():
 @app.command()
 def remove():
     """Remove a component from the monorepo project"""
-    manifest_dct = read_yaml(MANIFEST_FILE_NAME)
+    manifest_dct = tigr81_utils.read_yaml(MANIFEST_FILE_NAME)
 
     manifest = Manifest(**manifest_dct)
 
@@ -155,7 +155,7 @@ def scaffold():
     """Scaffold a monorepo project"""
     # TODO: check if the file exists and add a method from_yaml in Manifest
     try:
-        manifest_dct = read_yaml(MANIFEST_FILE_NAME)
+        manifest_dct = tigr81_utils.read_yaml(MANIFEST_FILE_NAME)
     except FileNotFoundError:
         typer.echo(
             "Manifest not found.. make sure you are in the correct folder or if you want to create a new one run: tigr81 monorepo init"

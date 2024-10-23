@@ -5,7 +5,7 @@ import typer
 from pydantic import BaseModel
 import yaml
 
-from tigr81.utils.read_yaml import read_yaml
+import tigr81.utils as tigr81_utils
 
 
 class HubTemplate(BaseModel):
@@ -71,7 +71,7 @@ hub templates:\n\n{hub_templates_str}
 
     @staticmethod
     def from_yaml(path: pl.Path) -> "Hub":
-        hub_dct = read_yaml(path)
+        hub_dct = tigr81_utils.read_yaml(path)
         return Hub(**hub_dct)
 
     @staticmethod

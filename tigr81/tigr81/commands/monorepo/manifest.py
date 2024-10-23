@@ -1,4 +1,5 @@
 import pathlib as pl
+import shutil
 from typing import List, Optional
 
 import typer
@@ -6,16 +7,15 @@ import yaml
 from graphviz import Digraph
 from pydantic import BaseModel
 
+import tigr81.utils as tigr81_utils
 from tigr81.commands.core.poetry_pm import PoetryPM
 from tigr81.commands.monorepo.constants import (
-    MANIFEST_FILE_NAME,
+    MANIFEST_DEFAULT_DESCRIPTION,
     MANIFEST_DEFAULT_NAME,
     MANIFEST_DEFAULT_RELATIVE_PATH,
-    MANIFEST_DEFAULT_DESCRIPTION,
+    MANIFEST_FILE_NAME,
 )
 from tigr81.commands.scaffold.project_template import ProjectTemplate, ProjectTypeEnum
-from tigr81.utils.pretty import pretty_list
-import shutil
 
 
 class Manifest(BaseModel):
@@ -35,7 +35,7 @@ class Manifest(BaseModel):
         if not component_to_remove:
             raise ValueError(
                 f"Component with name '{component_name}' not found in the manifest."
-            )            
+            )
 
         # find the component in which the component_name is installed
         components_to_update = []
@@ -43,12 +43,12 @@ class Manifest(BaseModel):
             for dependency in component.dependencies:
                 if dependency.name == component_name:
                     components_to_update.append(component.project_options.name)
-                    
+
         if len(components_to_update) == 0:
             continue_flg = True
         else:
             continue_flg = typer.confirm(
-                f"""By removing the component {component_name} you will remove it also from the components: {pretty_list(components_to_update)}\nDo you want to continue?"""
+                f"""By removing the component {component_name} you will remove it also from the components: {tigr81_utils.pretty_list(components_to_update)}\nDo you want to continue?"""
             )
         if continue_flg:
             if components_to_update:
@@ -76,7 +76,6 @@ class Manifest(BaseModel):
             )
             typer.echo(f"Component {component_name} removed successfully")
             return component_to_remove
-
 
     @classmethod
     def prompt(cls) -> "Manifest":
