@@ -6,15 +6,20 @@ Handle hub templates.
     - Update hub templates properties
     - Delete hub templates
 """
-import typer
-from typing_extensions import Annotated
-
-from tigr81 import DEFAULT_HUB_LOCATION, USER_HUB_LOCATION
-from tigr81.commands.hub.helpers import get_template_from_hubs, is_hub_name_valid, load_hubs
-from tigr81.commands.hub.models import Hub
-from cookiecutter.main import cookiecutter
 import pathlib as pl
 
+import typer
+from cookiecutter.main import cookiecutter
+from typing_extensions import Annotated
+
+import tigr81.utils as tigr81_utils
+from tigr81 import DEFAULT_HUB_LOCATION, USER_HUB_LOCATION
+from tigr81.commands.hub.helpers import (
+    get_template_from_hubs,
+    is_hub_name_valid,
+    load_hubs,
+)
+from tigr81.commands.hub.models import Hub
 
 app = typer.Typer()
 
@@ -82,8 +87,8 @@ def update():
 
 @app.command()
 def scaffold(
-    hub_name: Annotated[str, typer.Argument(help="The name of the hub in which there is the template to scaffold.")],
-    template_name: Annotated[str, typer.Argument(help="The name of the template to scaffold.")],
+    hub_name: Annotated[str, typer.Argument(help="The name of the hub in which there is the template to scaffold.")] = None,
+    template_name: Annotated[str, typer.Argument(help="The name of the template to scaffold.")] = None,
     output_dir: pl.Path = typer.Option(
         pl.Path("."),
         help="Set if you want to scaffold the project template in a specific directory",
@@ -91,6 +96,31 @@ def scaffold(
 ):
     """Scaffold a template from an existing hub templates"""
     hubs = load_hubs()
+
+    if not hub_name:
+        hub_name = tigr81_utils.create_interactive_prompt(
+            values=[_name for _name in hubs.keys()],
+            message="Select the hub from which to scaffold the template",
+            display_transform=lambda hub: hub.replace("_", " ").replace("-", " ").title()
+        )
+
+    selected_hub = hubs.get(hub_name)
+    if not selected_hub:
+        typer.echo(f"Hub '{hub_name}' not found.")
+        raise typer.Exit(code=1)
+    
+    if not template_name:
+        template_name = tigr81_utils.create_interactive_prompt(
+            values=[_name for _name in selected_hub.hub_templates.keys()],
+            message=f"Select a template from the hub '{hub_name}'",
+            display_transform=lambda template: template.replace("_", " ").replace("-", " ").title()
+        )
+
+    hub_template = selected_hub.hub_templates.get(template_name)
+    if not hub_template:
+        typer.echo(f"Template '{template_name}' not found in hub '{hub_name}'.")
+        raise typer.Exit(code=1)
+
     hub_template = get_template_from_hubs(hub_name=hub_name, template_name=template_name, hubs=hubs)
     cookiecutter(
         template=hub_template.template,
