@@ -27,6 +27,11 @@ class ProjectTypeEnum(str, Enum):
     def __str__(self):
         return self.value
 
+ICON_MAPPING = {
+    ProjectTypeEnum.FAST_API: "🌐",     
+    ProjectTypeEnum.POETRY_PKG: "📦",
+    ProjectTypeEnum.PRIME_REACT: "⚛️ ",
+}
 
 class ProjectTemplateOptions(BaseModel):
     name: Optional[str] = None
