@@ -15,11 +15,16 @@ class HubTemplate(BaseModel):
     directory: Optional[str] = None
 
     def __str__(self):
-        name_str = f"\ttemplate name: {self.name}"
-        template_str = f"\ttemplate location: {self.template}"
-        checkout_str = f"\t checkout: {self.checkout}" if self.checkout else ""
-        directory_str = f"\t directory: {self.directory}" if self.directory else ""
-        return "\n".join([name_str, template_str, checkout_str, directory_str])
+        components = [
+            f"\tTemplate name: {self.name}",
+            f"\tTemplate location: {self.template}"
+        ]
+        if self.checkout:
+            components.append(f"\tCheckout: {self.checkout}")
+        if self.directory:
+            components.append(f"\tDirectory: {self.directory}\n")
+        return "\n".join(components)
+
 
     @staticmethod
     def prompt() -> "HubTemplate":
