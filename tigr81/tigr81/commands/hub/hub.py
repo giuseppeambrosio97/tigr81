@@ -11,7 +11,6 @@ import pathlib as pl
 
 import typer
 from cookiecutter.main import cookiecutter
-from cookiecutter.repository import repository_has_cookiecutter_json
 from typing_extensions import Annotated
 
 import tigr81.commands.core.gitw as gitw
@@ -143,7 +142,13 @@ def scaffold(
         hub_name=hub_name, template_name=template_name, hubs=hubs
     )
 
-    if repository_has_cookiecutter_json(hub_template.template):
+    _is_cookiecutter_template = gitw.is_cookiecutter_template(
+        repo_url=hub_template.template,
+        checkout=hub_template.checkout,
+        directory=hub_template.directory,
+    )
+
+    if _is_cookiecutter_template:
         cookiecutter(
             template=hub_template.template,
             output_dir=output_dir,
@@ -152,9 +157,9 @@ def scaffold(
             directory=hub_template.directory,
         )
     else:
-        gitw.scaffold_git_repo(
+        gitw.clone_repo_directory(
             repo_url=hub_template.template,
-            dest_folder=output_dir,
-            folder_path=hub_template.directory,
+            output_dir=output_dir,
+            directory=hub_template.directory,
             checkout=hub_template.checkout,
         )
