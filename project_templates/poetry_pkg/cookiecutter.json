@@ -1,5 +1,6 @@
 {
   "name": "poetry_pkg",
+  "python_min_version": "3.8",
   "package_name": "{{ cookiecutter.name.lower().replace(' ', '_').replace('-', '_') }}",
   "description": "Poetry package template description",
   "author_name": "name surname",

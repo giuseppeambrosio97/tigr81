@@ -27,11 +27,16 @@ class ProjectTypeEnum(str, Enum):
     def __str__(self):
         return self.value
 
+ICON_MAPPING = {
+    ProjectTypeEnum.FAST_API: "🌐",     
+    ProjectTypeEnum.POETRY_PKG: "📦",
+    ProjectTypeEnum.PRIME_REACT: "⚛️ ",
+}
 
 class ProjectTemplateOptions(BaseModel):
-    name: str
-    package_name: str
-    description: str
+    name: Optional[str] = None
+    package_name: Optional[str] = None
+    description: Optional[str] = None
     author_name: Optional[str] = "name surname"
     author_email: Optional[EmailStr] = "email@gmail.com"
 
@@ -90,7 +95,7 @@ class ProjectTemplate(BaseModel):
 
     @property
     def extra_content(self) -> Dict:
-        extra_content = self.project_options.model_dump(mode="json")
+        extra_content = self.project_options.model_dump(mode="json", exclude_none=True)
 
         extra_content["dependencies"] = {dependency.name: dependency.model_dump(mode="json") for dependency in self.dependencies}
 

@@ -1,4 +1,3 @@
-import subprocess
 from typing import List
 
 import typer
@@ -11,6 +10,7 @@ from tigr81.commands.scaffold.project_template import (
     ProjectTypeEnum,
 )
 import pathlib as pl
+import tigr81.commands.core.gitw as gitw
 
 
 def scaffold(
@@ -18,17 +18,11 @@ def scaffold(
     default: bool = False,
     output_dir: pl.Path = pl.Path("."),
 ):
-    author_email = subprocess.run(
-        ["git", "config", "user.email"], capture_output=True, text=True, check=True
-    ).stdout.strip()
-    author_name = author_email.split("@")[0]
+    author_name, author_email = gitw.get_author_info()
 
     project_template = ProjectTemplate(
         project_type=project_type,
         project_options=ProjectTemplateOptions(
-            name=project_type,
-            package_name=project_type,
-            description=project_type,
             author_name=author_name,
             author_email=author_email,
         ),

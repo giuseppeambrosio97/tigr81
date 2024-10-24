@@ -1,7 +1,7 @@
 from typing_extensions import Annotated
-
 from cookiecutter.main import cookiecutter
 import typer
+import pathlib as pl
 
 from tigr81 import LOCAL_REPO_LOCATION, REPO_LOCATION
 from tigr81.cli_settings import CLI_SETTINGS
@@ -12,14 +12,13 @@ from tigr81.commands.scaffold.project_template import (
     ProjectTemplateOptions,
     ProjectTypeEnum,
 )
-
-import pathlib as pl
+from tigr81.commands.scaffold.select_project_type_interactive import select_project_type_interactive
 
 
 def scaffold(
     project_type: Annotated[
         ProjectTypeEnum, typer.Argument(help="The project type to scaffold")
-    ],
+    ] = None,
     default: bool = typer.Option(
         False, help="Set to False to enable input during cookiecutter execution"
     ),
@@ -30,13 +29,19 @@ def scaffold(
 ):
     """Scaffold a project template"""
 
+    # Prompt the user for project type if not provided
+    if not project_type:
+        project_type = select_project_type_interactive()
+
+    # Scaffolding logic
     if project_type == ProjectTypeEnum.PRIME_REACT:
         scaffold_core.scaffold_cookiecutter(
-            project_type=project_type,
-            output_dir=output_dir
+            project_type=project_type, output_dir=output_dir
         )
     else:
-        scaffold_core.scaffold(project_type=project_type, default=default, output_dir=output_dir)
+        scaffold_core.scaffold(
+            project_type=project_type, default=default, output_dir=output_dir
+        )
 
 
 if __name__ == "__main__":
