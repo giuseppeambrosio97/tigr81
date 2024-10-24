@@ -6,7 +6,7 @@ def create_interactive_prompt(
     values: List[Any],
     icon_mapping: Optional[Dict[Any, str]] = None,
     message: str = "Select an option",
-    display_transform: callable = lambda x: x.name,
+    display_transform: callable = lambda x: x,
 ) -> Any:
     """
     Utility function to prompt the user to select a value interactively.
