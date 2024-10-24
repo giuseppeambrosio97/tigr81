@@ -125,9 +125,6 @@ def scaffold(
         hub_name = tigr81_utils.create_interactive_prompt(
             values=[_name for _name in hubs.keys()],
             message="Select the hub from which to scaffold the template",
-            display_transform=lambda hub: hub.replace("_", " ")
-            .replace("-", " ")
-            .title(),
         )
 
     selected_hub = hubs.get(hub_name)
@@ -139,9 +136,6 @@ def scaffold(
         template_name = tigr81_utils.create_interactive_prompt(
             values=[_name for _name in selected_hub.hub_templates.keys()],
             message=f"Select a template from the hub '{hub_name}'",
-            display_transform=lambda template: template.replace("_", " ")
-            .replace("-", " ")
-            .title(),
         )
 
     hub_template = selected_hub.hub_templates.get(template_name)
