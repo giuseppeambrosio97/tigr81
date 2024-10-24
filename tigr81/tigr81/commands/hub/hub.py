@@ -70,10 +70,21 @@ def list(
 
 @app.command()
 def remove(
-    hub_name: Annotated[str, typer.Argument(help="The name of the hub to delete")],
+    hub_name: Annotated[
+        str, typer.Argument(help="The name of the hub to delete")
+    ] = None,
 ):
     """Remove a hub templates"""
     hubs = load_hubs([USER_HUB_LOCATION])
+
+    if len(hubs) == 0:
+        raise typer.Exit("No hubs were found..")
+
+    if hub_name is None:
+        hub_name = tigr81_utils.create_interactive_prompt(
+            values=[_name for _name in hubs.keys()],
+            message="Select an hub to delete",
+        )
 
     if hub_name not in hubs:
         typer.echo(f"The hub name {hub_name} does not exist")
