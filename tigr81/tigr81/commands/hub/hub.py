@@ -70,37 +70,59 @@ def list(
 
 @app.command()
 def remove(
-    hub_name: Annotated[
-        str, typer.Argument(help="The name of the hub to delete")
-    ] = None,
+    delete_template: bool = typer.Option(
+        False,
+        "--template",
+        "-t",
+        help="Delete a template inside a hub instead of the entire hub",
+    ),
+    hub_name: Annotated[str, typer.Argument(help="The name of the hub")] = None,
 ):
-    """Remove a hub templates"""
+    """Remove a hub or a hub template based on user choice"""
+
     hubs = load_hubs([USER_HUB_LOCATION])
 
     if len(hubs) == 0:
-        raise typer.Exit("No hubs were found..")
+        typer.echo("No hubs were found..")
+        raise typer.Exit()
 
     if hub_name is None:
         hub_name = tigr81_utils.create_interactive_prompt(
             values=[_name for _name in hubs.keys()],
-            message="Select an hub to delete",
+            message="Select a hub",
         )
 
     if hub_name not in hubs:
-        typer.echo(f"The hub name {hub_name} does not exist")
+        typer.echo(f"The hub name '{hub_name}' does not exist.")
         raise typer.Exit()
 
-    hub_path = USER_HUB_LOCATION / f"{hub_name}.yml"
-    typer.echo(f"Deleting hub {hub_name}...")
-    hub_path.unlink()
-    typer.echo(f"Hub {hub_name} deleted successfully")
+    selected_hub = hubs.get(hub_name)
 
+    if delete_template:
+        # Deleting a hub template
+        if len(selected_hub.hub_templates) == 0:
+            typer.echo(f"The hub '{hub_name}' does not contain any hub templates.")
+            raise typer.Exit()
 
-@app.command()
-def update():
-    """Update a hub templates"""
-    pass
+        hub_template_name_to_delete = tigr81_utils.create_interactive_prompt(
+            values=[_name for _name in selected_hub.hub_templates.keys()],
+            message=f"Select a template from the hub '{hub_name}' to delete",
+        )
 
+        typer.echo(f"Deleting hub template '{hub_template_name_to_delete}'...")
+        selected_hub.hub_templates.pop(hub_template_name_to_delete)
+
+        # Save the updated hub
+        selected_hub.to_yaml(USER_HUB_LOCATION)
+        typer.echo(
+            f"Hub template '{hub_template_name_to_delete}' deleted successfully."
+        )
+    else:
+        # Deleting the entire hub
+        hub_path = USER_HUB_LOCATION / f"{hub_name}.yml"
+        typer.echo(f"Deleting hub '{hub_name}'...")
+        hub_path.unlink()
+        typer.echo(f"Hub '{hub_name}' deleted successfully.")
 
 @app.command()
 def scaffold(
